@@ -1,0 +1,65 @@
+name: food_app
+description: A new Flutter project.
+
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  cupertino_icons: ^1.0.2
+
+  # for json
+  json_annotation: ^4.5.0
+
+  # bloc
+  flutter_bloc: ^8.0.1
+  equatable: ^2.0.3
+
+  # sql
+  sqflite: ^2.0.2+1
+  path_provider: ^2.0.10
+
+  # adptive UI
+  flutter_screenutil: ^5.5.2
+
+  # get
+  shared_preferences:
+  get: ^4.6.3
+
+  #image
+  cached_network_image: 3.2.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^2.0.0
+  build_runner: ^2.1.10
+  json_serializable: ^6.2.0
+  change_app_package_name: ^1.1.0
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+  assets:
+    - assets/images/
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
