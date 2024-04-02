@@ -71,7 +71,9 @@ class _HomePageState extends State<HomePage> {
             Align(
               alignment: Alignment.centerRight,
               child: Padding(
-                padding: const EdgeInsets.only(right: 10.0),
+                padding: EdgeInsets.only(
+                    right: 10.0,
+                    bottom: 10 + MediaQuery.of(context).padding.bottom),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [

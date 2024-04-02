@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
               scaffoldBackgroundColor: BaseColors.white,
             ),
-            initialRoute: Routes.login,
+            initialRoute: isLogin ? Routes.login : Routes.home,
             onGenerateRoute: Routes.generateRoute,
           ),
         ),
