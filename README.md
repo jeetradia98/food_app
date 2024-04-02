@@ -1,4 +1,4 @@
-# samip_gru
+# food_app
 
 A new Flutter project.
 
@@ -6,5 +6,5 @@ A new Flutter project.
 
 ### Initial configuration 
 sdks:
-dart: ">=2.17.0 <3.0.0"
-flutter: ">=2.8.1"
+dart: ">=2.18.0 <3.0.0"
+flutter: ">=3.3.0"
