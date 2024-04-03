@@ -7,6 +7,11 @@ class FoodItemImagesTable {
   static const String imageUrl = "imageUrl";
   static const String itemId = 'itemId';
 
-  static const String createTable =
-      "CREATE TABLE $tableName ($id INTEGER PRIMARY KEY AUTOINCREMENT, $imageUrl TEXT, $itemId INTEGER NOT NULL, FOREIGN KEY ($itemId) REFERENCES ${FoodItemTable.tableName} (${FoodItemTable.id}));";
+  static const String createTable = '''CREATE TABLE IF NOT EXISTS $tableName (
+      $id INTEGER PRIMARY KEY NOT NULL, 
+      $imageUrl TEXT, 
+      $itemId INTEGER NOT NULL, 
+      FOREIGN KEY ($itemId) REFERENCES ${FoodItemTable.tableName} (${FoodItemTable.id})
+      );
+      ''';
 }

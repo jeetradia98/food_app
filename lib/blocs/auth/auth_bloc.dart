@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/database/tableOps/category_ops.dart';
 import 'package:food_app/database/tableOps/category_item_mapping_ops.dart';
+import 'package:food_app/database/tableOps/fooditem_ops.dart';
 import 'package:food_app/database/tableOps/screensaver_ops.dart';
 import 'package:food_app/model/common_response.dart';
 import 'package:food_app/model/screensaver_api_model.dart';
@@ -39,6 +40,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           if (dbRes.data != null) {
             /// init data
             await CategoryOps().initData();
+            await FoodItemOps().initData();
             await CategoryItemMapOps().initData();
             // final CommonResponse getAllData = await screeSaverOps.getAll();
             //

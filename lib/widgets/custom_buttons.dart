@@ -54,14 +54,14 @@ class HomePageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
+    return ElevatedButton(
         style: TextButton.styleFrom(
           foregroundColor: textColor,
           backgroundColor: backgroundColor,
           padding: padding,
           textStyle: BaseStyles.buttonTextStyle,
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          minimumSize: const Size(100, 40),
+          minimumSize: const Size(100, 48),
         ),
         onPressed: callback,
         child: Text(name));

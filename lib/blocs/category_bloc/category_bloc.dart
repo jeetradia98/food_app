@@ -8,6 +8,7 @@ import 'package:food_app/model/common_response.dart';
 import 'package:food_app/model/food_item_model.dart';
 import 'package:food_app/utils/base_api_const.dart';
 import 'package:food_app/utils/base_extension.dart';
+import 'package:food_app/utils/base_strings.dart';
 
 part 'category_event.dart';
 part 'category_state.dart';
@@ -17,10 +18,10 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
   CategoryBloc() : super(CategoryInitial()) {
     on<CategoryEvent>((event, emit) async {
-      if (event is LoadCategories) {
+      if (event is LoadCategoriesEvent) {
         await onLoadCategories(event, emit);
       }
-      if (event is SelectedCategory) {
+      if (event is SelectedCategoryEvent) {
         int index =
             event.categoryList.indexWhere((element) => event.id == element.id);
         index = index != -1 ? index : 1;
@@ -33,19 +34,25 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   }
 
   Future<void> onLoadCategories(CategoryEvent event, Emitter emit) async {
-    emit.call(LoadCategoriesInProgress());
+    try {
+      emit.call(LoadCategoriesInProgress());
 
-    final CommonResponse res = await categoryOps.getAll();
+      final CommonResponse res = await categoryOps.getAll();
 
-    if (res.data != null) {
-      final cList = (res.data![BaseApiConstants.val] as List)
-          .map((e) => Category.fromJson(e))
-          .toList();
+      if (res.data == null) {
+        emit.call(LoadCategoriesFailed(res.message));
+        return;
+      }
+
+      var data = res.data![BaseApiConstants.val] as List;
+      if (data.isEmpty) {
+        emit.call(const LoadCategoriesFailed(BaseStrings.noCategories));
+        return;
+      }
+
+      final cList = data.map((e) => Category.fromJson(e)).toList();
       '$cList is cate list'.toLog;
-      // int index =
-      // cList.indexWhere((element) => event.id == element.id);
-      // index = index != -1 ? index : 1;
-      // note initially we give page view index 1
+      //todo resolve case when no category
       emit.call(
         LoadCategoriesCompleted(
           categoryList: cList,
@@ -53,8 +60,9 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
           selectedCategoryId: cList.first.id,
         ),
       );
-    } else {
-      emit.call(LoadCategoriesFailed(res.message));
+    } catch (e) {
+      '$e'.toErrorLog;
+      emit.call(const LoadCategoriesFailed(BaseStrings.categoryLoadingFailed));
     }
   }
 }

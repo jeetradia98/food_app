@@ -28,6 +28,8 @@ class OrderBlocCubit extends Cubit<OrderBlocState> {
         await orderModelOps.updateQuantity(orderModel: order);
     if (response.data != null && isRefresh) {
       emit(GetDataCompleted(response.data![BaseApiConstants.val]));
+    } else if (response.data != null && !isRefresh) {
+      emit(AddToCartSuccess(response.message));
     } else {
       emit(AddToCartFailed(response.message));
     }

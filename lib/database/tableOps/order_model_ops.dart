@@ -39,15 +39,7 @@ class OrderModelOps {
       );
       if (currentOrder.isEmpty) {
         /// if doesn't exist, add it
-        final OrderModel updateOrder =
-            orderModel.copyWith(newQty: 1, newTotal: orderModel.itemPrice);
-
-        final int insertRes = await AppDB.instance
-            .getDatabase()
-            .insert(tableName, updateOrder.toJson());
-        if (insertRes == 0) {
-          throw 'not inserted';
-        }
+        await insertItem(orderModel);
       } else {
         /// if exist, check quantity
         final OrderModel existingOrder =
@@ -80,11 +72,7 @@ class OrderModelOps {
         }
       }
 
-      List res = (await AppDB.instance
-              .getDatabase()
-              .rawQuery('''SELECT * FROM $tableName'''))
-          .map((e) => OrderModel.fromJson(e))
-          .toList();
+      List res = await getAllOrder;
 
       'order is $orderModel \n$res are all orders \n$currentOrder is currentOrder from database'
           .toLog;
@@ -94,6 +82,26 @@ class OrderModelOps {
     } catch (e) {
       e.toString().toErrorLog;
       return CommonResponse(message: '$e');
+    }
+  }
+
+  Future<List> get getAllOrder async {
+    return (await AppDB.instance
+            .getDatabase()
+            .rawQuery('''SELECT * FROM $tableName'''))
+        .map((e) => OrderModel.fromJson(e))
+        .toList();
+  }
+
+  Future<void> insertItem(OrderModel orderModel) async {
+    final OrderModel updateOrder =
+        orderModel.copyWith(newQty: 1, newTotal: orderModel.itemPrice);
+
+    final int insertRes = await AppDB.instance
+        .getDatabase()
+        .insert(tableName, updateOrder.toJson());
+    if (insertRes == 0) {
+      throw 'not inserted';
     }
   }
 

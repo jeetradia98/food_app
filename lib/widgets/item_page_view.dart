@@ -40,7 +40,7 @@ class FoodItemPageView extends StatelessWidget {
                       crossAxisCount: 2,
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
-                      childAspectRatio: 50 / 86,
+                      childAspectRatio: 0.80,
                     ),
                     shrinkWrap: true,
                     itemCount: list.length,
@@ -83,14 +83,14 @@ class FoodItemPageView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // FadeInImage(image: NetworkImage(foodItem.imageLink), placeholder: ,),
-          FadeInImage(
-            image: NetworkImage(foodItem.imageLink),
-            placeholder: const AssetImage(BaseImages.shimmer),
-            fit: BoxFit.cover,
-            height: 150,
-            width: double.maxFinite,
-            imageErrorBuilder: (_, __, ___) => FlutterLogo(),
+          Expanded(
+            child: FadeInImage(
+              image: NetworkImage(foodItem.imageLink),
+              placeholder: const AssetImage(BaseImages.shimmer),
+              fit: BoxFit.cover,
+              width: double.maxFinite,
+              imageErrorBuilder: (_, __, ___) => FlutterLogo(),
+            ),
           ),
           Text(
             foodItem.name.toUpperCase(),

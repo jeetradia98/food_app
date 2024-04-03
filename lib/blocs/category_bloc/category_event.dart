@@ -4,13 +4,13 @@ abstract class CategoryEvent extends Equatable {
   const CategoryEvent();
 }
 
-class LoadCategories extends CategoryEvent {
+class LoadCategoriesEvent extends CategoryEvent {
   @override
   List<Object?> get props => ['LoadCategories'];
 }
 
-class SelectedCategory extends CategoryEvent {
-  const SelectedCategory(this.categoryList, this.id);
+class SelectedCategoryEvent extends CategoryEvent {
+  const SelectedCategoryEvent(this.categoryList, this.id);
   final List<Category> categoryList;
   final int id;
 
@@ -18,8 +18,8 @@ class SelectedCategory extends CategoryEvent {
   List<Object?> get props => [categoryList, id];
 }
 
-class LoadItemsByCategory extends CategoryEvent {
-  const LoadItemsByCategory(this.categoryId);
+class LoadItemsByCategoryEvent extends CategoryEvent {
+  const LoadItemsByCategoryEvent(this.categoryId);
   final int categoryId;
 
   @override

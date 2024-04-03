@@ -37,6 +37,13 @@ class AddToCartFailed extends FailedState {
   List<Object?> get props => [failMessage];
 }
 
+class AddToCartSuccess extends OrderBlocState {
+  final String message;
+  AddToCartSuccess(this.message);
+  @override
+  List<Object?> get props => [message];
+}
+
 class DeleteItemCartFailed extends FailedState {
   DeleteItemCartFailed(String message) : super(message);
   @override

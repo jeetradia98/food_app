@@ -1,28 +1,20 @@
 import 'package:equatable/equatable.dart';
+import 'package:food_app/database/tableModels/order_table.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import '../database/tableModels/categorymasters_table.dart';
-import '../database/tableModels/fooditem_table.dart';
-import '../database/tableModels/food_item_images_table.dart';
 
 part 'order_model.g.dart';
 
 @JsonSerializable()
 class OrderModel extends Equatable {
-  static const String tableName = "OrderTable";
-
-  static const String categoryIdString = CategoryMastersTable.id;
-  static const String itemIdString = FoodItemTable.id;
-  static const String categoryNameString = CategoryMastersTable.name;
-  static const String itemNameString = FoodItemTable.name;
-  static const String itemImageUrlString = FoodItemImagesTable.imageUrl;
-  static const String itemPriceString = FoodItemTable.price;
-
-  static const String qty = 'qty';
-  static const String total = 'total';
-
-  static const String createTable =
-      "CREATE TABLE IF NOT EXISTS $tableName ($categoryNameString TEXT,$itemNameString TEXT,$itemImageUrlString TEXT, $total	REAL, $qty	INTEGER, $itemPriceString	REAL, $itemIdString INTEGER PRIMARY KEY NOT NULL, $categoryIdString INTEGER NOT NULL, FOREIGN KEY ($itemIdString) REFERENCES ${FoodItemTable.tableName} (${FoodItemTable.id}), FOREIGN KEY ($categoryIdString) REFERENCES ${CategoryMastersTable.tableName} (${CategoryMastersTable.id}))";
+  static const String tableName = OrderTable.tableName;
+  static const String categoryIdString = OrderTable.categoryIdString;
+  static const String itemIdString = OrderTable.itemIdString;
+  static const String categoryNameString = OrderTable.categoryNameString;
+  static const String itemNameString = OrderTable.itemNameString;
+  static const String itemImageUrlString = OrderTable.itemImageUrlString;
+  static const String itemPriceString = OrderTable.itemPriceString;
+  static const String qty = OrderTable.qty;
+  static const String total = OrderTable.total;
 
   @JsonKey(name: categoryIdString)
   final int categoryId;
@@ -66,7 +58,6 @@ class OrderModel extends Equatable {
   List<Object?> get props => [
         itemId,
         itemName,
-        // itemImageUrl,
         itemPrice,
         quantity,
         orderTotal,

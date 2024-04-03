@@ -1,11 +1,11 @@
 class FoodItemTable {
   static const String tableName = "FoodItem";
 
-  static const String id = "itemId";
+  static const String id = "id";
   static const String name = "itemName";
   static const String description = "fullDescription";
   static const String price = 'price';
 
   static const String createTable =
-      "CREATE TABLE $tableName ($id INTEGER PRIMARY KEY AUTOINCREMENT, $name TEXT, $description	TEXT, $price	REAL)";
+      "CREATE TABLE IF NOT EXISTS $tableName ($id INTEGER PRIMARY KEY NOT NULL, $name TEXT, $description	TEXT, $price	REAL)";
 }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_app/blocs/category_bloc/category_bloc.dart';
 import 'package:food_app/blocs/item/items_bloc.dart';
+import 'package:food_app/blocs/order/order_bloc_cubit.dart';
 import 'package:food_app/model/category_model.dart';
 import 'package:food_app/utils/base_colors.dart';
 import 'package:food_app/utils/base_extension.dart';
@@ -28,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    context.read<CategoryBloc>().add(LoadCategories());
+    context.read<CategoryBloc>().add(LoadCategoriesEvent());
     pageController = PageController();
   }
 
@@ -43,65 +44,77 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: Row(
-                children: [
-                  /// build category items
-
-                  buildCategoryList,
-                  Expanded(
-                    child: PageView.builder(
-                      itemCount: 5,
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: pageController,
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (context, index) {
-                        return FoodItemPageView(
-                          index: index + 1,
-                          itemBloc: context.read<ItemsBloc>(),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: EdgeInsets.only(
-                    right: 10.0,
-                    bottom: 10 + MediaQuery.of(context).padding.bottom),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+        child: BlocListener<OrderBlocCubit, OrderBlocState>(
+          listenWhen: (previousState, state) =>
+              state is AddToCartFailed || state is AddToCartSuccess,
+          listener: (context, state) {
+            if (state is FailedState) {
+              state.failMessage.errorSnackBar;
+            } else if (state is AddToCartSuccess) {
+              state.message.successSnackBar;
+            }
+          },
+          child: Column(
+            children: [
+              Expanded(
+                child: Row(
                   children: [
-                    HomePageButton(
-                      callback: () {
-                        Navigator.pushNamed(context, Routes.order);
-                      },
-                      name: BaseStrings.checkout,
-                      backgroundColor: Colors.amber,
-                      textColor: BaseColors.black,
-                      padding: const EdgeInsets.all(14.0),
+                    /// build category items
+
+                    buildCategoryList,
+                    Expanded(
+                      child: PageView.builder(
+                        itemCount: 5,
+                        physics: const NeverScrollableScrollPhysics(),
+                        controller: pageController,
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (context, index) {
+                          return FoodItemPageView(
+                            index: index + 1,
+                            itemBloc: context.read<ItemsBloc>(),
+                          );
+                        },
+                      ),
                     ),
-                    5.0.toVSB,
-                    HomePageButton(
-                      callback: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, Routes.screenSaver, (route) => false);
-                      },
-                      name: BaseStrings.cancelOrder,
-                      backgroundColor: Colors.grey.shade300,
-                      textColor: Colors.grey.shade600, //BaseColors.greyLight,
-                      padding: const EdgeInsets.all(8.0),
-                    )
                   ],
                 ),
               ),
-            ),
-          ],
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      right: 10.0,
+                      bottom: 10 + MediaQuery.of(context).padding.bottom),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      HomePageButton(
+                        callback: () {
+                          Navigator.pushNamed(context, Routes.order);
+                        },
+                        name: BaseStrings.checkout,
+                        backgroundColor: Colors.amber,
+                        textColor: BaseColors.black,
+                        padding: const EdgeInsets.all(8.0),
+                      ),
+                      // 5.0.toVSB,
+                      // HomePageButton(
+                      //   callback: () {
+                      //     Navigator.pushNamedAndRemoveUntil(
+                      //         context, Routes.screenSaver, (route) => false);
+                      //   },
+                      //   name: BaseStrings.cancelOrder,
+                      //   backgroundColor: Colors.grey.shade300,
+                      //   textColor: Colors.grey.shade600, //BaseColors.greyLight,
+                      //   padding: const EdgeInsets.all(8.0),
+                      // )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -150,14 +163,14 @@ class _HomePageState extends State<HomePage> {
                         onTap: () {
                           context
                               .read<CategoryBloc>()
-                              .add(SelectedCategory(list, item.id));
+                              .add(SelectedCategoryEvent(list, item.id));
                         },
                       );
                     },
                   ),
                 );
         } else if (state is LoadCategoriesFailed) {
-          return BaseStrings.categoryLoadingFailed.noDataError;
+          return state.message.noDataError;
         } else {
           '$state home is state'.toErrorLog;
           return const SizedBox.shrink();
