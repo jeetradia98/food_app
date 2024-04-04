@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/database/tableOps/category_item_mapping_ops.dart';
+import 'package:food_app/database/tableOps/fooditem_ops.dart';
 import 'package:food_app/database/tableOps/order_model_ops.dart';
 import 'package:food_app/model/common_response.dart';
 import 'package:food_app/model/food_item_model.dart';
@@ -11,6 +12,7 @@ part 'items_state.dart';
 
 class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
   final CategoryItemMapOps categoryItemMapOps = CategoryItemMapOps();
+  final FoodItemOps foodItemOps = FoodItemOps();
   final OrderModelOps orderModelOps = OrderModelOps();
 
   ItemsBloc() : super(ItemsInitial()) {
@@ -28,7 +30,7 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
     emit.call(LoadCategoryItemsInProgress());
 
     final CommonResponse response =
-        await categoryItemMapOps.getAllFoodItems(event.categoryId);
+        await foodItemOps.getAllCategoryFoodItems(event.categoryId);
     ////
 
     if (response.data != null) {

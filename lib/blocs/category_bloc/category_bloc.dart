@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart' show TabController;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/database/tableOps/category_ops.dart';
 import 'package:food_app/model/category_model.dart';
@@ -15,6 +16,7 @@ part 'category_state.dart';
 
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   final CategoryOps categoryOps = CategoryOps();
+  late TabController tabController;
 
   CategoryBloc() : super(CategoryInitial()) {
     on<CategoryEvent>((event, emit) async {

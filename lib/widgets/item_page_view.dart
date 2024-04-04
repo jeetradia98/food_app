@@ -61,14 +61,12 @@ class FoodItemPageView extends StatelessWidget {
   }
 
   Widget buildFoodItem(FoodItem foodItem, BuildContext context) {
-    // '${foodItem.name}${foodItem.price}${foodItem.imageLink}'.toLog;
-
     return InkWell(
       onTap: () {
         //todo check regarding category name and id
         final order = OrderModel(
           itemId: foodItem.id,
-          itemImageUrl: foodItem.imageLink,
+          itemImageUrl: foodItem.imageLink ?? '',
           itemName: foodItem.name,
           itemPrice: foodItem.price,
           quantity: 1,
@@ -81,22 +79,27 @@ class FoodItemPageView extends StatelessWidget {
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
+            flex: 4,
             child: FadeInImage(
-              image: NetworkImage(foodItem.imageLink),
+              image: NetworkImage(foodItem.imageLink ?? ''),
               placeholder: const AssetImage(BaseImages.shimmer),
               fit: BoxFit.cover,
               width: double.maxFinite,
               imageErrorBuilder: (_, __, ___) => FlutterLogo(),
             ),
           ),
-          Text(
-            foodItem.name.toUpperCase(),
-            style: BaseStyles.foodNameText,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+          Expanded(
+            child: Text(
+              foodItem.name.toUpperCase(),
+              style: BaseStyles.foodNameText,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+            ),
           ),
           5.0.toVSB,
           Text(
@@ -104,6 +107,7 @@ class FoodItemPageView extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: BaseStyles.foodPriceText,
+            textAlign: TextAlign.center,
           ),
         ],
       ),

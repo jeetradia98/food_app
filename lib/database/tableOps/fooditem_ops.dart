@@ -1,7 +1,9 @@
 import 'package:food_app/database/db_repo.dart';
 import 'package:food_app/database/static_data_json/static_data.dart';
+import 'package:food_app/database/tableModels/category_item_mappings_table.dart';
 import 'package:food_app/database/tableModels/fooditem_table.dart';
 import 'package:food_app/database/tableModels/food_item_images_table.dart';
+import 'package:food_app/database/tableOps/category_item_mapping_ops.dart';
 import 'package:food_app/model/common_response.dart';
 import 'package:food_app/model/food_item_model.dart';
 import 'package:food_app/utils/base_api_const.dart';
@@ -56,15 +58,17 @@ class FoodItemOps {
     });
   }
 
-  Future<CommonResponse> getAll() async {
+  Future<CommonResponse> getAllCategoryFoodItems(int cId) async {
     try {
       String query =
           '''SELECT ${FoodItemTable.id},${FoodItemTable.name},${FoodItemImagesTable.imageUrl},${FoodItemTable.price}
       FROM ${FoodItemTable.tableName}
-      LEFT JOIN ${FoodItemImagesTable.tableName}
-      ON ${FoodItemTable.id} = ${FoodItemImagesTable.itemId}''';
+      INNER JOIN ${CategoryItemMappingTable.tableName} ON ${FoodItemTable.id} = ${CategoryItemMappingTable.itemId}
+      LEFT JOIN ${FoodItemImagesTable.tableName} ON ${FoodItemTable.id} = ${FoodItemImagesTable.itemId}
+      WHERE ${CategoryItemMappingTable.categoryId} = ?
+      ''';
 
-      var res = await AppDB.instance.getDatabase().rawQuery(query);
+      var res = await AppDB.instance.getDatabase().rawQuery(query, [cId]);
 
       return CommonResponse(
           message: 'Success', data: {BaseApiConstants.val: res});

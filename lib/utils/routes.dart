@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/blocs/order/order_bloc_cubit.dart';
 import 'package:food_app/screens/home_screen.dart';
-import 'package:food_app/screens/login_page.dart';
+import 'package:food_app/screens/login_screen.dart';
 import 'package:food_app/screens/order_screen.dart';
-import 'package:food_app/screens/screen_savers_page.dart';
+import 'package:food_app/screens/splash_screen.dart';
 
 import '../blocs/auth/auth_bloc.dart';
 import '../blocs/category_bloc/category_bloc.dart';
 import '../blocs/item/items_bloc.dart';
 import '../blocs/screen_saver/screen_saver_cubit.dart';
+import '../screens/screen_savers_screen.dart';
 
 class Routes {
   static const String home = '/home';
@@ -17,11 +18,18 @@ class Routes {
   static const String login = '/login';
   static const String screenSaver = '/screenSaver';
   static const String order = '/order';
+  static const String splash = '/splash';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       // case landing:
       //   return MaterialPageRoute(builder: (_) => const LandingPage());
+      case splash:
+        return MaterialPageRoute(
+          builder: (_) {
+            return const SplashScreen();
+          },
+        );
       case login:
         return MaterialPageRoute(
           builder: (_) {

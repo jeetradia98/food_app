@@ -20,12 +20,14 @@ class CustomTextField extends StatelessWidget {
     this.autoValidateMode,
     this.onSubmit,
     required this.error,
+    this.hint,
   }) : super(key: key);
 
   final TextEditingController controller;
   // final FormFieldValidator<String>? fieldValidator;
   final ValueChanged<String>? onSubmit;
   final String label;
+  final String? hint;
   final TextCapitalization? capitalization;
   final TextInputAction? inputAction;
   final TextInputType? inputType;
@@ -59,6 +61,12 @@ class CustomTextField extends StatelessWidget {
               onFieldSubmitted: onSubmit,
               controller: controller,
               decoration: InputDecoration(
+                hintText: hint,
+                hintStyle: TextStyle(
+                  color: BaseColors.hintColor,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w400,
+                ),
                 // errorText: error.value,
                 border: border,
                 focusedBorder: border,

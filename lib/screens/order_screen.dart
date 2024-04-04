@@ -49,20 +49,22 @@ class _OrderScreenState extends State<OrderScreen> {
           } else if (state is GetDataCompleted) {
             return state.data.isEmpty
                 ? BaseStrings.cartIsEmpty.noDataError
-                : DataTable(
-                    dataRowHeight: 150,
-                    columnSpacing: 10,
-                    headingRowHeight: 50,
-                    columns: [
-                      buildDataColumn('Item'),
-                      buildDataColumn('Qty'),
-                      buildDataColumn('Price'),
-                    ],
-                    rows: List.generate(state.data.length, (index) {
-                      final item = state.data[index];
+                : SingleChildScrollView(
+                    child: DataTable(
+                      dataRowHeight: 150,
+                      columnSpacing: 10,
+                      headingRowHeight: 50,
+                      columns: [
+                        buildDataColumn('Item'),
+                        buildDataColumn('Qty'),
+                        buildDataColumn('Price'),
+                      ],
+                      rows: List.generate(state.data.length, (index) {
+                        final item = state.data[index];
 
-                      return buildDataRow(item);
-                    }),
+                        return buildDataRow(item);
+                      }),
+                    ),
                   );
           } else {
             '$state order is state'.toErrorLog;

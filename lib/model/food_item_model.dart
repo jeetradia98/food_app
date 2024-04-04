@@ -10,22 +10,24 @@ class FoodItem extends Equatable {
   @JsonKey(name: FoodItemTable.id)
   final int id;
   @JsonKey(name: FoodItemImagesTable.imageUrl)
-  final String imageLink;
+  final String imageLinks;
   @JsonKey(name: FoodItemTable.name)
   final String name;
   @JsonKey(name: FoodItemTable.price)
   final double price;
 
+  String? get imageLink => imageLinks.split(',').first;
+
   const FoodItem({
     required this.id,
-    required this.imageLink,
+    required this.imageLinks,
     required this.name,
     required this.price,
   });
 
   @override
   String toString() {
-    return '$name $id $imageLink $price';
+    return '$name $id $imageLinks $price';
   }
 
   factory FoodItem.fromJson(Map<String, dynamic> json) =>
@@ -34,7 +36,7 @@ class FoodItem extends Equatable {
   Map<String, dynamic> toJson() => _$FoodItemToJson(this);
 
   @override
-  List<Object?> get props => [id, imageLink, name, price];
+  List<Object?> get props => [id, imageLinks, name, price];
 }
 
 @JsonSerializable()

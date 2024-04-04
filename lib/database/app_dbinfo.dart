@@ -13,28 +13,28 @@ class AppDatabaseInfo {
   static const String databaseName = "food_app.db";
   static const int databaseVersion = 1;
 
-  // static List<String> getTableNameList() {
-  //   List<String> dbTableNameList = [];
-  //   dbTableNameList.add(ScreenSaversTable.tableName);
-  //   dbTableNameList.add(CategoryMastersTable.tableName);
-  //   dbTableNameList.add(FoodItemTable.tableName);
-  //   dbTableNameList.add(CategoryImagesTable.tableName);
-  //   dbTableNameList.add(FoodItemImagesTable.tableName);
-  //   dbTableNameList.add(CategoryItemMappingTable.tableName);
-  //   dbTableNameList.add(OrderTable.tableName);
-  //   return dbTableNameList;
-  // }
-  //
-  // static List<String> generateDropQueryList() {
-  //   List<String> dbDropList = getTableNameList();
-  //   for (var i = 0; i < getTableNameList().length; i++) {
-  //     String query = "DROP TABLE IF EXISTS ${getTableNameList()[i]}";
-  //     dbDropList.add(query);
-  //   }
-  //   return dbDropList;
-  // }
+  static List<String> getTableNameList() {
+    List<String> dbTableNameList = [];
+    dbTableNameList.add(ScreenSaversTable.tableName);
+    dbTableNameList.add(CategoryMastersTable.tableName);
+    dbTableNameList.add(FoodItemTable.tableName);
+    dbTableNameList.add(CategoryImagesTable.tableName);
+    dbTableNameList.add(FoodItemImagesTable.tableName);
+    dbTableNameList.add(CategoryItemMappingTable.tableName);
+    dbTableNameList.add(OrderTable.tableName);
+    return dbTableNameList;
+  }
 
-  List<String> _generateCreationQueryList() {
+  static List<String> generateDropQueryList() {
+    List<String> dbDropList = getTableNameList();
+    for (var i = 0; i < getTableNameList().length; i++) {
+      String query = "DROP TABLE IF EXISTS ${getTableNameList()[i]}";
+      dbDropList.add(query);
+    }
+    return dbDropList;
+  }
+
+  List<String> generateCreationQueryList() {
     List<String> dbQueryList = [];
     dbQueryList.add(ScreenSaversTable.createTable);
     dbQueryList.add(CategoryMastersTable.createTable);
@@ -48,7 +48,7 @@ class AppDatabaseInfo {
 
   Future<bool> initDb(Database theDb) async {
     // List<String> dbDropList = _generateDropQueryList();
-    List<String> dbSchemaQueryList = _generateCreationQueryList();
+    List<String> dbSchemaQueryList = generateCreationQueryList();
 
     for (var i = 0; i < dbSchemaQueryList.length; i++) {
       // '${dbSchemaQueryList[i]} to be created'.toLog;

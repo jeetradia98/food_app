@@ -39,9 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
           if (dbRes.data != null) {
             /// init data
-            await CategoryOps().initData();
-            await FoodItemOps().initData();
-            await CategoryItemMapOps().initData();
+            await insertAllData();
             // final CommonResponse getAllData = await screeSaverOps.getAll();
             //
             // List<ScreenSaverMaster> list = List<ScreenSaverMaster>.from(
@@ -65,4 +63,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
   }
+}
+
+Future<void> insertAllData() async {
+  await CategoryOps().initData();
+  await FoodItemOps().initData();
+  await CategoryItemMapOps().initData();
 }

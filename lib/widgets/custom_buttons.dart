@@ -67,3 +67,33 @@ class HomePageButton extends StatelessWidget {
         child: Text(name));
   }
 }
+
+class HomePageButton2 extends StatelessWidget {
+  const HomePageButton2({
+    Key? key,
+    required this.onPressed,
+    required this.name,
+    this.backgroundColor,
+    this.textColor,
+    this.padding,
+    this.icon,
+  }) : super(key: key);
+
+  final VoidCallback onPressed;
+  final String name;
+  final Color? backgroundColor;
+  final Color? textColor;
+  final EdgeInsets? padding;
+  final IconData? icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton.extended(
+      backgroundColor: backgroundColor,
+      foregroundColor: textColor,
+      onPressed: onPressed,
+      label: Text(name),
+      icon: icon == null ? null : Icon(icon),
+    );
+  }
+}
